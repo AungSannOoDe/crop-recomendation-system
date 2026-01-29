@@ -1,0 +1,32 @@
+:root{
+    --primary-color:#4b8749;
+}
+
+.bg-color{
+    background-color: var(--primary-color);
+}
+.img-size-auto{
+    max-height: 350px;
+}
+.stat-tile{
+    background: rgba(225, 225, 255, 0.15);
+    border: 1px solid rgba(225, 225, 255, 0.25) ;
+    border-radius: 1rem;
+    padding: .8rem 1rem;
+}
+.state-title{
+    font-size: 0.85rem ;
+    opacity: 0.8;
+
+}
+.focus-none *:focus {
+    outline: none !important;
+    box-shadow: none !important;
+    border-color: #c9c9c9 !important;
+}
+.state-value{
+    font-size: 1.6rem ;
+    opacity: 0.8;
+    font-weight: 700;
+    
+}

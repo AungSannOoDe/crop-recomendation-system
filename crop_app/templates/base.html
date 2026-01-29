@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <title>{% block title%} Crop Recomender {% endblock %}</title>
+</head>
+<!-- <style>
+    :root { --primary: #28a745; --dark: #333; --light: #f4f4f4; }
+    body { font-family: 'Segoe UI', sans-serif; background: var(--light); margin: 0; padding: 0; }
+        
+    /* Navbar */
+    nav { background: var(--dark); color: white; padding: 1rem; text-align: center; }
+        
+    /* Container */
+    .container { max-width: 600px; margin: 40px auto; background: white; padding: 30px; 
+                border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        
+    h2 { color: var(--primary); text-align: center; margin-top: 0; }
+        
+    /* Form Styling */
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    .input-group { margin-bottom: 15px; }
+    label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9rem; }
+    input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
+        
+    button { width: 100%; background: var(--primary); color: white; padding: 12px; 
+             border: none; border-radius: 6px; font-size: 1rem; cursor: pointer; transition: 0.3s; }
+    button:hover { background: #218838; }
+
+    .result { margin-top: 20px; padding: 15px; background: #e9f7ef; border-left: 5px solid var(--primary); }
+</style> -->
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container-fluid">
+          <a class="navbar-brand fw-bold" href="{% url 'home' %}">CropPredict</a>
+  
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+  
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-center">
+                {% if user.is_authenticated %}
+              <li class="nav-item">
+                <a class="nav-link active" href="{% url 'home' %}">Home</a>
+              </li>
+              <li class="nav-item ms-lg-2">
+                <a class="btn btn-outline-dark btn-sm" href="/admin">Admin</a>
+              </li>
+              {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'login' %}">Login</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Sign Up</a>
+              </li>
+              {% endif %}
+            
+            </ul>
+          </div>
+        </div>
+      </nav>
+    {% block content%}
+    {% endblock %}
+</body>
+<script src="{% static 'js/app.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</html>

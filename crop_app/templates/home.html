@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} Home {% endblock %}
+
+{% block content %}
+<section class="container bg-color  rounded-4 p-4 mt-5 text-white">
+    <div class="row align-itmes-center">
+        <div class="col-lg-7">
+            <h1>Crop Recomenation System</h1>
+            <p class="lead text-white-75 mb-3">Enter roll and weather parameters to get clean UI sercure accounts and
+                detailed history - all in place. </p>
+            <div class="d-flex gap-4 flex-wrap">
+                {% if user.is_authenticated and user.is_staff  %}
+                <a href="" class="btn btn-light">
+                    <i class="fa-solid fa-gauge"></i>
+                    Admin Dashboard
+                </a>
+                <a href="" class="btn btn-outline-light">
+                    <i class="fa-solid fa-table"></i>
+                    View Predictions
+                </a>
+                {% elif user.is_authenticated and not  user.is_staff  %}
+                <a href="" class="btn btn-outline-light">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    Prediction Now
+                </a>
+                <a href="" class="btn btn-outline-light">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    My Histroy
+                </a>
+                {%  else %}
+                <a href="" class="btn btn-outline-light">
+                    <i class="fa-solid fa-right-to-bracket"></i>
+                    User login
+                </a>
+                <a href="" class="btn btn-outline-light">
+                    <i class="fa-solid fa-user-plus"></i>
+                    Create account
+                </a>
+                <a href="" class="btn btn-outline-light">
+                    <i class="fa-solid fa-lock"></i>
+                    Admin login
+                </a>
+                {% endif %}
+            </div>
+            <div class="mt-4 small ">
+                <i class="fa-solid  fa-shield-halved  me-1 "></i>
+                Your predictions are privately saved in account
+            </div>
+        </div>
+        <div class="col-lg-5">
+           <img src="{% static 'images/about.jpg' %}" style=" max-width: 500px; "  class="img-size-auto" alt="">
+        </div>
+    </div>
+    <div class="row g-3 mt-3">
+        <div class="col-sm-6  col-lg-3">
+            <div class="stat-title">
+                <div class="stat-title">
+             Users
+                </div>
+                <div class="stat-value">
+   5
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6  col-lg-3">
+            <div class="stat-title">
+                <div class="stat-title">
+             Predictions
+                </div>
+                <div class="stat-value">
+   10
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6  col-lg-3">
+            <div class="stat-title">
+                <div class="state-title">
+             Predictions
+                </div>
+                <div class="stat-value">
+   10
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+{% endblock %}

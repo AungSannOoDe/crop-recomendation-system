@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Login | CropPredict {% endblock %}
+
+{% block content %}
+<div class="container py-5 focus-none">
+    <div class="row justify-content-center align-items-center" style="min-height: 70vh;">
+        <div class="col-md-5">
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                            <i class="fa-solid fa-key fs-3"></i> </div>
+                        <h2 class="fw-bold">Welcome Back</h2>
+                        <p class="text-muted">Login to manage your farm data</p>
+                    </div>
+
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-danger py-2 small" role="alert">
+                                <i class="fa-solid fa-circle-exclamation"></i> {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <form method="POST" action="{% url 'login' %}" id="loginForm">
+                        {% csrf_token %}
+                    
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Username</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0 text-muted">
+                                    <i class="fa-solid fa-user"></i>
+                                </span>
+                                <input type="text" name="username" class="form-control bg-light border-start-0" placeholder="Enter username" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0 text-muted">
+                                    <i class="fa-solid fa-lock"></i>
+                                </span>
+                                <input type="password" id="passwordInput" name="password" 
+                                       class="form-control bg-light border-start-0 border-end-0" 
+                                       placeholder="••••••••" required>
+                                <span class="input-group-text bg-light border-start-0" 
+                                      id="togglePassword" style="cursor: pointer;">
+                                      <i class="fa-regular fa-eye text-muted"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between mb-4 small">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="remember" name="remember">
+                                <label class="form-check-label" for="remember">Remember me</label>
+                            </div>
+                            <a href="#" class="text-success text-decoration-none">Forgot Password?</a>
+                        </div>
+
+                        <button type="submit" id="submitBtn" class="btn btn-success btn-lg w-100 rounded-3 mb-3 shadow-sm fw-bold">
+                            <span id="btnText">Login</span>
+                            <span id="btnSpinner" class="d-none">
+                                <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                Authenticating...
+                            </span>
+                        </button>
+
+                        <div class="text-center">
+                            <span class="text-muted small">Don't have an account?</span>
+                            <a href="#" class="text-success fw-bold small text-decoration-none">Sign Up</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}<!-- <div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">
+                    <h2 class="h4 mb-0 text-center">Enter Soil Details</h2>
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST" action="{% url 'home' %}">
+                        {% csrf_token %}
+                        
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-4">
+                                <label class="form-label">Nitrogen (N)</label>
+                                <input type="number" step="any" name="N" class="form-control" required placeholder="90">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Phosphorus (P)</label>
+                                <input type="number" step="any" name="P" class="form-control" required placeholder="42">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Potassium (K)</label>
+                                <input type="number" step="any" name="K" class="form-control" required placeholder="43">
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Temperature (°C)</label>
+                                <input type="number" step="any" name="temperature" class="form-control" required placeholder="20.8">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Humidity (%)</label>
+                                <input type="number" step="any" name="humidity" class="form-control" required placeholder="82.0">
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label">pH Value</label>
+                                <input type="number" step="any" name="ph" class="form-control" required placeholder="6.5">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Rainfall (mm)</label>
+                                <input type="number" step="any" name="rainfall" class="form-control" required placeholder="202.9">
+                            </div>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success btn-lg">Predict Best Crop</button>
+                        </div>
+                    </form>
+                </div>
+
+                {% if prediction %}
+                <div class="card-footer bg-light border-top-0 p-4">
+                    <div class="alert alert-info text-center mb-0" role="alert">
+                        <h3 class="h5 mb-1">Recommended Crop</h3>
+                        <span class="display-6 fw-bold text-success">{{ prediction|capfirst }}</span>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div> -->
