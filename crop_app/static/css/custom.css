@@ -14,6 +14,25 @@
     border-radius: 1rem;
     padding: .8rem 1rem;
 }
+.signup-bg {
+    background: 
+        linear-gradient(135deg, rgba(0,0,0,0.6), rgba(0,128,0,0.6)),
+        url("{% static 'images/farm-bg.jpg' %}") no-repeat center/cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+/* Change the checkbox color when checked */
+.form-check-input:checked {
+    background-color: #198754 !important; /* Bootstrap success green */
+    border-color: #198754 !important;
+}
+
+/* Optional: Change the glow/outline color when focused */
+.form-check-input:focus {
+    border-color: #198754 !important;
+    box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.25) !important;
+}
 .state-title{
     font-size: 0.85rem ;
     opacity: 0.8;

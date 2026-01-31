@@ -5,7 +5,7 @@
 
 {% block content %}
 <div class="container py-5 focus-none">
-    <div class="row justify-content-center align-items-center" style="min-height: 70vh;">
+    <div class="row justify-content-center align-items-center  url" style="min-height: 70vh;">
         <div class="col-md-5">
             <div class="card shadow-lg border-0 rounded-4">
                 <div class="card-body p-5">
@@ -71,7 +71,7 @@
 
                         <div class="text-center">
                             <span class="text-muted small">Don't have an account?</span>
-                            <a href="#" class="text-success fw-bold small text-decoration-none">Sign Up</a>
+                            <a href="{% url 'signup' %}" class="text-success fw-bold small text-decoration-none">Sign Up</a>
                         </div>
                     </form>
                 </div>
