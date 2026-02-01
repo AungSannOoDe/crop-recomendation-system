@@ -10,43 +10,99 @@ def home(request):
     return render(request,"home.html")
 
 def login_view(request):
-    return  render(request,"login.html")
+ if request.method == "POST":
+    # Ensure these names match your HTML input 'name' attributes
+    username = request.POST.get("email") 
+    password = request.POST.get("password")
+
+    user = authenticate(request, username=username, password=password)
+        
+    if user is not None:
+        login(request, user)
+        return redirect("prediction") 
+    else:
+        messages.error(request, "Invalid email or password")
+        # After an error, it will fall through to the final return render
+
+ return render(request, "login.html") # This must be inside the function
+
+from .ml.loader import predict_one,load_bundle
 def predict(request):
-    return render(request,"predict.html")
+    feature_order=load_bundle()["feature_cols"]
+    result=None
+    last_data=None
+    if request.method=="POST":
+        data={}
+        try:
+            for  c in feature_order:
+                data[c] = float(request.POST.get(c))
+
+
+        except ValueError:
+            messages.error(request,"Please enter valid numeric values")  
+            return redirect("predict")  
+
+        label=predict_one(data)
+        Prediction.objects.create(user=request.user,predicted_label=label,**data) 
+        result=label
+        last_data=data
+        messages.success(request,f"Recommended Crop:{label}")   
+    return render(request,"predict.html",locals())
 def logout_view(request):
     logout(request)
     messages.success("user logout successfully")
     return redirect("login")    
+ 
 def signup(request):
-    if request.method=="POST":
-        name=request.POST.get("name")
-        email=request.POST.get("email")
-        password=request.POST.get("password")
-        if not name or not email or not password:
-            messages.error(request,"please fill required fields")
-            return redirect("signup")
-        if len(password) <6:
-           messages.error(request,"password should be at least 6  characters")
-           return redirect("signup") 
-        if password != confirm_password:
-           messages.error(request, "Passwords do not match.")
-           return redirect("signup")
-        if User.objects.filter(email=email).exists():
-           messages.error(request,"This email is already registered.")
-           return redirect("signup")  
-        try:
-           user=User.objects.create_user(
+ if request.method == "POST":
+    name = request.POST.get("name")
+    email = request.POST.get("email")
+    phone = request.POST.get("phone")
+    password = request.POST.get("password")
+    confirm_password = request.POST.get("confirm_password")
+
+    # Validation
+    if not name or not email or not password:
+        messages.error(request, "Please fill all required fields.")
+        return redirect("signup")
+
+    if len(password) < 6:
+        messages.error(request, "Password should be at least 6 characters.")
+        return redirect("signup")
+
+    if password != confirm_password:
+        messages.error(request, "Passwords do not match.")
+        return redirect("signup")
+
+    if User.objects.filter(username=name).exists():
+        messages.error(request, "This username is already taken.")
+        return redirect("signup")
+
+    if User.objects.filter(email=email).exists():
+        messages.error(request, "This email is already registered.")
+        return redirect("signup")
+
+    try:
+        # Create auth user
+        user = User.objects.create_user(
             username=name,
             email=email,
             password=password
-           )  
-           user.save()
-           UserProfile.objects.create(user=user,email=email)
-           auth_login(request,user)
-           messages.success(request, "Account created! Please login.")
-           return redirect("prediction")
-        except Exception as e:
-          messages.error(request, "An error occurred. Please try again.")   
-          return redirect("signup") 
+        )
 
-    return render(request,"signup.html")    
+        # Create profile
+        UserProfile.objects.create(
+            user=user,
+            phone=phone
+        )
+
+        auth_login(request, user)
+        messages.success(request, f"Welcome {name}! Account created successfully.")
+        return redirect("prediction")
+
+    except Exception as e:
+        print(e)  # shows real error in terminal
+        messages.error(request, "An error occurred during registration.")
+        return redirect("signup")
+
+ return render(request, "signup.html")

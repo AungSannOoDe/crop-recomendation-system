@@ -8,22 +8,14 @@
         <div class="col-lg-10">
             <div class="card shadow-lg border-0 overflow-hidden rounded-4">
                 <div class="row g-0 ">
-                    <div class="col-lg-5   d-none d-lg-block bg-success text-white p-5" style="background: url('static/images/about.jpg') center/cover no-repeat;">
+                    <div class="col-lg-5 d-none d-lg-block bg-success text-white p-5" style="background: url('{% static 'images/about.jpg' %}') center/cover no-repeat;">
                         <div class="h-100 d-flex flex-column justify-content-center align-items-start text-start">
                             <h3 class="fw-bold mb-3">Welcome!</h3>
-        
                             <p class="text-white-50 mb-4">Predict shops, save history, export CSV all in one.</p>
-        
                             <ul class="list-unstyled w-100">
-                                <li class="mb-2">
-                                    <i class="fa-solid fa-circle-check me-2"></i> Export  CSV
-                                </li>
-                                <li class="mb-2">
-                                    <i class="fa-solid fa-circle-check me-2"></i> User Profile
-                                </li>
-                                <li class="mb-2">
-                                    <i class="fa-solid fa-circle-check me-2"></i> Accurate Predictions
-                                </li>
+                                <li class="mb-2"><i class="fa-solid fa-circle-check me-2"></i> Export CSV</li>
+                                <li class="mb-2"><i class="fa-solid fa-circle-check me-2"></i> User Profile</li>
+                                <li class="mb-2"><i class="fa-solid fa-circle-check me-2"></i> Accurate Predictions</li>
                             </ul>
                         </div>
                     </div>
@@ -36,29 +28,37 @@
                             
                             <div class="mb-3">
                                 <label class="form-label small fw-bold">Username</label>
-                                <input type="text" name="name" class="form-control bg-light" placeholder="johndoe123" required>
+                                <input type="text" name="name" id="usernameInput" class="form-control bg-light" placeholder="johndoe123" >
+                                <div id="nameError" class="mt-1 small"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label small fw-bold">Phone Number</label>
+                                <input type="text" name="phone" id="phoneInput" class="form-control bg-light" placeholder="+95 9xxxxxxxx">
+                                <div id="phoneError" class="mt-1 small"></div>
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label small fw-bold">Email Address</label>
-                                <input type="email" name="email" class="form-control bg-light" placeholder="name@example.com" required>
+                                <input type="email" name="email" id="emailInput" class="form-control bg-light" placeholder="name@example.com">
+                                <div id="emailError" class="mt-1 small"></div>
                             </div>
 
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label small fw-bold">Password</label>
                                     <div class="input-group">
-                                        <input type="password" id="passwordInput" name="password" class="form-control bg-light border-end-0" required>
+                                        <input type="password" id="passwordInput" name="password" class="form-control bg-light border-end-0">
                                         <span class="input-group-text bg-light border-start-0" id="togglePassword" style="cursor: pointer;">
                                             <i class="fa-regular fa-eye text-muted"></i>
                                         </span>
                                     </div>
+                                    <div id="passwordError" class="mt-1 small"></div>
                                 </div>
 
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label small fw-bold">Confirmation Password</label>
                                     <div class="input-group">
-                                        <input type="password" id="confirmPasswordInput" name="confirm_password" class="form-control bg-light border-end-0" required>
+                                        <input type="password" id="confirmPasswordInput" name="confirm_password" class="form-control bg-light border-end-0">
                                         <span class="input-group-text bg-light border-start-0" id="toggleConfirmPassword" style="cursor: pointer;">
                                             <i class="fa-regular fa-eye text-muted"></i>
                                         </span>
@@ -66,22 +66,17 @@
                                     <div id="validationMessage" class="mt-1 small"></div>
                                 </div>
                             </div>
+
                             <div class="mb-4">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" value="" id="termsCheck" required>
                                     <label class="form-check-label small text-muted" for="termsCheck">
-                                        I agree to the <a href="#" class="text-success text-decoration-none fw-bold">Terms of Service</a> 
-                                        and <a href="#" class="text-success text-decoration-none fw-bold">Privacy Policy</a>.
+                                        I agree to the <a href="#" class="text-success text-decoration-none fw-bold">Terms of Service</a>
                                     </label>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-success btn-lg w-100 rounded-3 shadow-sm mb-3">
-                                Sign Up
-                            </button>
-
-                            <p class="text-center text-muted small">
-                                Already have an account? <a href="{% url 'login' %}" class="text-success fw-bold text-decoration-none">Login</a>
-                            </p>
+                            
+                            <button type="submit" class="btn btn-success btn-lg w-100 rounded-3 shadow-sm mb-3">Sign Up</button>
                         </form>
                     </div>
                 </div>
@@ -89,6 +84,5 @@
         </div>
     </div>
 </div>
-
 
 {% endblock %}

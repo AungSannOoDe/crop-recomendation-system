@@ -1,9 +1,113 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %} Create Account {% endblock %}
+{% block title %} prediciton {% endblock %}
 
 {% block content %}
-<div class="">
-    <h1>Hello</h1>
-</div>
-{% endblock %}
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="card shadow-sm border-0">
+            <div class="card-body">
+                <div class="d-flex  justify-content-between  align-items-center ">
+                    <h3> <i class="fa-solid fa-seedling me-1"></i> Crop Recomentation</h3>
+                    <div class="text-muted small d-none d-md-block">
+                        <i class="fa-solid fa-circle-info"></i> Enter numeric values(Humidity 0-100,pH 0-14)
+                    </div>
+                </div>
+                <hr>
+
+                <form method="post" id="predictform">
+                    {% csrf_token %}
+                    <div class="row g-3">
+                        {% for c in feature_order %}
+                        <div class="col-md-4">
+                            <label class="form-label text-uppercase">{{ c }}</label>
+
+                            <input type="number"
+                                   name="{{ c }}"
+                                   min="0"
+                                   {% if c == "humidity" %}
+                                       max="100"
+                                       placeholder="0 - 100 %"
+                                   {% elif c == "ph" %}
+                                       max="14"
+                                       placeholder="0 - 14"
+                                   {% elif c == "temperature" %}
+                                       placeholder="°C (e.g. 25)"
+                                   {% elif c == "rainfall" %}
+                                       placeholder="mm (e.g. 200)"
+                                   {% else %}
+                                       placeholder="eg. 90"
+                                   {% endif %}
+                                   step="any"
+                                   required
+                                   class="form-control">
+                        </div>
+                        {% endfor %}
+
+
+                        <div class="d-flex flex-wrap gap-2 mt-3">
+                            <button class="btn btn-success" type="submit">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i> Prediction
+                            </button>
+                            <button class="btn btn-outline-secondary" id="btnSample" type="button">
+                                <i class="fa-solid fa-bolt"></i> Use samples
+                            </button>
+                            <button class="btn btn-outline-danger" type="reset">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i> Reset
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                {% if result %}
+                <hr>
+                <div class="alert alert-success">
+                    Recommend Crop: <strong>{{ result}}</strong>
+                </div>
+                {% endif %}
+
+                {% if last_data %}
+                <div class="small text-muted">
+                    <i class="fa-regular fa-clock"></i> Input used:
+                    {% for k,v in last_data.items %}
+                    <code>{{ k }}={{ v }}</code>{% if not forloop.last %}. {% endif %}
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+            </div>
+        </div>
+        <script>
+            (function(){
+                const form = document.getElementById('predictform');
+                const inputs = form ? form.querySelectorAll('input[name]') : [];
+        
+                // Correct sample values
+                const sample = {
+                    N: 90,
+                    P: 40,
+                    K: 40,
+                    temperature: 20,  // fixed spelling
+                    humidity: 80,
+                    ph: 7,
+                    rainfall: 200
+                };
+    
+                document.getElementById('btnSample')?.addEventListener('click', () => {
+                    inputs.forEach(inp => {
+                        const key = inp.name; // key inside the loop
+                        if (sample[key] !== undefined) {
+                            inp.value = sample[key];
+                        }
+                    });
+    
+                    // Optional: show alert
+                    Swal.fire({
+                        icon: 'info',
+                        title: "Sample filled"
+                    });
+                });
+            })();
+            </script>
+    
+        {% endblock %}
