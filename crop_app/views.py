@@ -31,6 +31,7 @@ def predict(request):
     feature_order=load_bundle()["feature_cols"]
     result=None
     last_data=None
+    label = None 
     if request.method=="POST":
         data={}
         try:
@@ -42,11 +43,24 @@ def predict(request):
             messages.error(request,"Please enter valid numeric values")  
             return redirect("predict")  
 
-        label=predict_one(data)
-        Prediction.objects.create(user=request.user,predicted_label=label,**data) 
-        result=label
-        last_data=data
-        messages.success(request,f"Recommended Crop:{label}")   
+        label = predict_one(data, top_n=3)  # returns a list
+        result = label  # keep as list for template
+        last_data = data
+
+    # Store as string in database if needed
+        Prediction.objects.create(
+           user=request.user,
+           predicted_label=", ".join(label),  # store as readable string
+            **data
+         )
+
+    if isinstance(label, (list, tuple)):
+          messages.success(request, f"Recommended Crops: {', '.join(label)}")
+    else:
+        print(request, f"Recommended Crops: {label}")
+         
+
+ 
     return render(request,"predict.html",locals())
 def logout_view(request):
     logout(request)

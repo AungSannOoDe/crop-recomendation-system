@@ -13,20 +13,25 @@ def load_bundle():
      return bundle
 
 
-def predict_one(feature_predict):
+def predict_one(feature_predict, top_n=3):
  bundle = load_bundle()
  model = bundle["model"]
  order = bundle["feature_cols"]
 
- # Build input array
+ # Build input array in correct order
  X = [[float(feature_predict[c]) for c in order]]
 
- # Predict
- pred = model.predict(X)
+ # Get probability for each class
+ probs = model.predict_proba(X)[0]  # list of probabilities per class
+ classes = model.classes_           # list of class names
 
- # Convert to string if needed
- if isinstance(pred, (list, tuple, np.ndarray)):
-    pred = pred[0]  # take first element
+ # Zip class names and probabilities
+ crop_probs = list(zip(classes, probs))
 
- return str(pred)
+ # Sort descending by probability
+ crop_probs.sort(key=lambda x: x[1], reverse=True)
 
+ # Take top N crops
+ top_crops = [c[0] for c in crop_probs[:top_n]]
+
+ return top_crops

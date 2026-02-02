@@ -59,10 +59,10 @@
                     </div>
                 </form>
 
-                {% if result %}
+                {% if result|length %}
                 <hr>
                 <div class="alert alert-success">
-                    Recommend Crop: <strong>{{ result}}</strong>
+                    Recommended Crops: <strong>{{ result|join:", " }}</strong>
                 </div>
                 {% endif %}
 
