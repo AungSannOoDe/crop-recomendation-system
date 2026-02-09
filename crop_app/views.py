@@ -9,6 +9,7 @@ from .models import UserProfile
 def home(request):
     return render(request,"home.html")
 
+
 def login_view(request):
  if request.method == "POST":
     # Ensure these names match your HTML input 'name' attributes
@@ -27,6 +28,7 @@ def login_view(request):
  return render(request, "login.html") # This must be inside the function
 
 from .ml.loader import predict_one,load_bundle
+@login_required
 def predict(request):
     feature_order=load_bundle()["feature_cols"]
     result=None

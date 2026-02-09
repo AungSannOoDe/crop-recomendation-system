@@ -22,25 +22,11 @@
                         <div class="col-md-4">
                             <label class="form-label text-uppercase">{{ c }}</label>
 
-                            <input type="number"
-                                   name="{{ c }}"
-                                   min="0"
-                                   {% if c == "humidity" %}
-                                       max="100"
-                                       placeholder="0 - 100 %"
-                                   {% elif c == "ph" %}
-                                       max="14"
-                                       placeholder="0 - 14"
-                                   {% elif c == "temperature" %}
-                                       placeholder="°C (e.g. 25)"
-                                   {% elif c == "rainfall" %}
-                                       placeholder="mm (e.g. 200)"
-                                   {% else %}
-                                       placeholder="eg. 90"
-                                   {% endif %}
-                                   step="any"
-                                   required
-                                   class="form-control">
+                            <input type="number" name="{{ c }}" min="0" {% if c ==  "humidity" %} max="100"
+                                placeholder="0 - 100 %" {% elif c == "ph" %} max="14" placeholder="0 - 14" {% elif
+                                c == "temperature" %} placeholder="°C (e.g. 25)" {% elif c == "rainfall" %}
+                                placeholder="mm (e.g. 200)" {% else %} placeholder="eg. 90" {% endif %} step="any"
+                                required class="form-control">
                         </div>
                         {% endfor %}
 
@@ -77,37 +63,44 @@
 
             </div>
         </div>
-        <script>
-            (function(){
-                const form = document.getElementById('predictform');
-                const inputs = form ? form.querySelectorAll('input[name]') : [];
-        
-                // Correct sample values
-                const sample = {
-                    N: 90,
-                    P: 40,
-                    K: 40,
-                    temperature: 20,  // fixed spelling
-                    humidity: 80,
-                    ph: 7,
-                    rainfall: 200
-                };
-    
-                document.getElementById('btnSample')?.addEventListener('click', () => {
-                    inputs.forEach(inp => {
-                        const key = inp.name; // key inside the loop
-                        if (sample[key] !== undefined) {
-                            inp.value = sample[key];
-                        }
-                    });
-    
-                    // Optional: show alert
-                    Swal.fire({
-                        icon: 'info',
-                        title: "Sample filled"
-                    });
-                });
-            })();
-            </script>
-    
-        {% endblock %}
+    </div>
+   
+</div>
+
+
+
+
+<script>
+    (function () {
+        const form = document.getElementById('predictform');
+        const inputs = form ? form.querySelectorAll('input[name]') : [];
+
+        // Correct sample values
+        const sample = {
+            N: 90,
+            P: 40,
+            K: 40,
+            temperature: 20,  // fixed spelling
+            humidity: 80,
+            ph: 7,
+            rainfall: 200
+        };
+
+        document.getElementById('btnSample')?.addEventListener('click', () => {
+            inputs.forEach(inp => {
+                const key = inp.name; // key inside the loop
+                if (sample[key] !== undefined) {
+                    inp.value = sample[key];
+                }
+            });
+
+            // Optional: show alert
+            Swal.fire({
+                icon: 'info',
+                title: "Sample filled"
+            });
+        });
+    })();
+</script>
+
+{% endblock %}
