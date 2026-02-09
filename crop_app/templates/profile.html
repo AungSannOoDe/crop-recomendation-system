@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} Edit Profile {% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+                    <h3 class="mb-4"> 
+                        <i class="fa-solid fa-user-pen"></i>
+                        Edit Profile
+                    </h3>
+                    <hr>
+                    <form method="POST">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" name="name" class="form-control" value="{{ request.user.username }}" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Email Address</label>
+                            <input type="email" name="email" class="form-control" value="{{ request.user.email }}" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">Phone Number</label>
+                            <input type="text" name="phone" class="form-control" value="{{ request.user.userprofile.phone }}">
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fa-solid fa-floppy-disk"></i> Save Changes
+                            </button>
+                            <a href="{% url 'home' %}" class="btn btn-outline-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

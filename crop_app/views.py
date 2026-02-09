@@ -136,3 +136,54 @@ def user_delete_prediction(request,id):
     prediction.delete()
     messages.success(request,"Entry Deleted successfully")
     return redirect('user_history')
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from .models import UserProfile    
+
+
+@login_required
+def profile_view(request):
+    # Use get_or_create to ensure the app doesn't crash if a profile is missing
+    profile, created = UserProfile.objects.get_or_create(user=request.user)
+
+    if request.method == "POST":
+        # 1. Get data from the form
+        new_name = request.POST.get("name")
+        new_email = request.POST.get("email")
+        new_phone = request.POST.get("phone")
+
+        # 2. Update the User model (Auth)
+        user = request.user
+        user.username = new_name
+        user.email = new_email
+        user.save()
+
+        # 3. Update the UserProfile model
+        profile.phone = new_phone
+        profile.save()
+
+        messages.success(request, "Profile updated successfully!")
+        return redirect('profile') # Refresh the page to show new data
+
+    return render(request, "profile.html", locals())
+
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
+
+@login_required
+def change_password_view(request):
+    if request.method == 'POST':
+        # This form automatically requires: Old, New, and Confirm
+        form = PasswordChangeForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            user = form.save()
+            # Important: updates the session so the user isn't logged out
+            update_session_auth_hash(request, user)
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('profile_view')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(user=request.user)
+    
+    return render(request, 'change-password.html', {'form': form})
