@@ -28,6 +28,7 @@ def login_view(request):
  return render(request, "login.html") # This must be inside the function
 
 from .ml.loader import predict_one,load_bundle
+from django.contrib.auth.decorators import login_required
 @login_required
 def predict(request):
     feature_order=load_bundle()["feature_cols"]
@@ -122,3 +123,16 @@ def signup(request):
         return redirect("signup")
 
  return render(request, "signup.html")
+
+@login_required
+def user_history_view(request):
+    predictions= Prediction.objects.filter(user=request.user)
+    return render(request,"history.html",locals()) 
+   
+from django.shortcuts import get_object_or_404
+@login_required
+def user_delete_prediction(request,id):
+    prediction= get_object_or_404(Prediction,id=id,user=request.user)
+    prediction.delete()
+    messages.success(request,"Entry Deleted successfully")
+    return redirect('user_history')
