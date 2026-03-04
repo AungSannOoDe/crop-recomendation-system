@@ -8,11 +8,30 @@
 .img-size-auto{
     max-height: 350px;
 }
-.stat-tile{
+.stat-title{
     background: rgba(225, 225, 255, 0.15);
     border: 1px solid rgba(225, 225, 255, 0.25) ;
     border-radius: 1rem;
     padding: .8rem 1rem;
+}
+.signup-bg {
+    background: 
+        linear-gradient(135deg, rgba(0,0,0,0.6), rgba(0,128,0,0.6)),
+        url("{% static 'images/farm-bg.jpg' %}") no-repeat center/cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+/* Change the checkbox color when checked */
+.form-check-input:checked {
+    background-color: #198754 !important; /* Bootstrap success green */
+    border-color: #198754 !important;
+}
+
+/* Optional: Change the glow/outline color when focused */
+.form-check-input:focus {
+    border-color: #198754 !important;
+    box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.25) !important;
 }
 .state-title{
     font-size: 0.85rem ;
@@ -29,4 +48,138 @@
     opacity: 0.8;
     font-weight: 700;
     
+}
+.hero-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    position: relative;
+    overflow: hidden;
+}
+    
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+    
+.floating-element {
+    animation: float 6s ease-in-out infinite;
+}
+    
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0px); }
+}
+    
+.stat-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+    
+.stat-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+    
+.feature-icon {
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    font-size: 24px;
+    transition: all 0.3s ease;
+}
+    
+.stat-card:hover .feature-icon {
+    transform: scale(1.1);
+    background: rgba(255, 255, 255, 0.25);
+}
+    
+.btn-glow {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+    
+.btn-glow:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+    
+.btn-glow::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+    
+.btn-glow:hover::after {
+    opacity: 1;
+}
+    
+.step-number {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-right: 1rem;
+}
+    
+.step-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+    
+.step-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(10px);
+}
+    
+.quick-stat {
+    text-align: center;
+    padding: 1.5rem;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+    
+.quick-stat:hover {
+    transform: scale(1.05);
+    background: rgba(255, 255, 255, 0.15);
+}
+    
+.stat-value {
+    font-size: 2.5rem;
+    font-weight: bold;
+    line-height: 1;
+    margin: 0.5rem 0;
+    background: linear-gradient(135deg, #fff 0%, #e0e0ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }

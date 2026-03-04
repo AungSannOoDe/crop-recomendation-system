@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %} User Management {% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Breadcrumb & Header -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'admin_dashboard' %}">Dashboard</a></li>
+            <li class="breadcrumb-item active">Users</li>
+        </ol>
+    </nav>
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold"><i class="fa-solid fa-users text-primary me-2"></i>Registered Farmers</h2>
+        <span class="text-muted">Total: {{ users.count }}</span>
+    </div>
+
+    <!-- User Table -->
+    <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="bg-light">
+                        <tr>
+                            <th class="ps-4 py-3">Username</th>
+                            <th class="py-3">Email</th>
+                            <th class="py-3">Phone Number</th>
+                            <th class="py-3">Joined Date</th>
+                            <th class="py-3 text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                        <tr>
+                            <td class="ps-4">
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-primary bg-opacity-10 text-primary rounded-circle p-2 me-3" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                                        {{ user.username|first|upper }}
+                                    </div>
+                                    <span class="fw-bold">{{ user.username }}</span>
+                                </div>
+                            </td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.userprofile.phone|default:"N/A" }}</td>
+                            <td>{{ user.date_joined|date:"M d, Y" }}</td>
+                            <td class="text-center">
+                                <a href="mailto:{{ user.email }}" class="btn btn-sm btn-outline-primary rounded-pill">
+                                    <i class="fa-solid fa-envelope"></i>
+                                </a>
+                                <!-- You can add a delete button here later -->
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center py-5 text-muted">
+                                No users found in the system.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -4,39 +4,158 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <title>{% block title%} Crop Recomender {% endblock %}</title>
-</head>
-<!-- <style>
-    :root { --primary: #28a745; --dark: #333; --light: #f4f4f4; }
-    body { font-family: 'Segoe UI', sans-serif; background: var(--light); margin: 0; padding: 0; }
-        
-    /* Navbar */
-    nav { background: var(--dark); color: white; padding: 1rem; text-align: center; }
-        
-    /* Container */
-    .container { max-width: 600px; margin: 40px auto; background: white; padding: 30px; 
-                border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        
-    h2 { color: var(--primary); text-align: center; margin-top: 0; }
-        
-    /* Form Styling */
-    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-    .input-group { margin-bottom: 15px; }
-    label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9rem; }
-    input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
-        
-    button { width: 100%; background: var(--primary); color: white; padding: 12px; 
-             border: none; border-radius: 6px; font-size: 1rem; cursor: pointer; transition: 0.3s; }
-    button:hover { background: #218838; }
 
-    .result { margin-top: 20px; padding: 15px; background: #e9f7ef; border-left: 5px solid var(--primary); }
-</style> -->
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <title>{% block title %} Crop Recommender {% endblock %}</title>
+</head>
+
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-light shadow-sm">
         <div class="container-fluid">
+            <a class="navbar-brand fw-bold" href="{% url 'home' %}">CropPredict</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto d-flex align-items-center gap-2">
+                    {% if user.is_authenticated %}
+        
+                        <!-- 1. Home is visible to everyone logged in -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'home' %}">
+                                <i class="fa-solid fa-house me-1"></i> Home
+                            </a>
+                        </li>
+
+                        <!-- 2. STAFF ONLY SECTION -->
+                        {% if user.is_staff %}
+                            <li class="nav-item">
+                                <a class="nav-link fw-bold text-primary" href="{% url 'admin_dashboard' %}">
+                                    <i class="fa-solid fa-gauge-high me-1"></i> Admin Dashboard
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'admin_user_list' %}" class="nav-link fw-bold">
+                                   users
+                                </a>
+                            </li>
+                           
+                            <!-- You can add more admin-only links here -->
+                        {% endif %}
+
+                        <!-- 3. REGULAR USER ONLY SECTION (Optional: Hide from Admin) -->
+                        {% if not user.is_staff %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'predict' %}">
+                                    <i class="fa-solid fa-seedling me-1"></i> Prediction
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'user_history' %}">
+                                    <i class="fa-solid fa-clock-rotate-left "></i> My History
+                                </a>
+                            </li>
+                        {% endif %}
+
+                        <!-- 4. PROFILE & LOGOUT (Common for both Admin and User) -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'profile' %}">
+                                <i class="fa-solid fa-user"></i> Profile
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-danger" href="{% url 'logout' %}">
+                                <i class="fa-solid fa-right-from-bracket me-1"></i> Logout
+                            </a>
+                        </li>
+
+                    {% else %}
+                        <!-- 5. GUEST ONLY SECTION -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">
+                                <i class="fa-solid fa-right-to-bracket me-1"></i> Login
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'signup' %}">
+                                <i class="fa-solid fa-user-plus me-1"></i> Sign Up
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'admin_login' %}">
+                                <i class="fa-solid fa-user-shield me-1"></i> Admin Login
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+     <main class="">
+        {% block content %}
+
+        {% endblock %}
+     </main>
+    
+    <!-- Footer -->
+    <footer class="bg-dark text-white pt-5 pb-3 mt-5">
+        <div class="container">
+            <div class="row">
+                <!-- About -->
+                <div class="col-md-4 mb-4">
+                    <h5 class="fw-bold">About Us</h5>
+                    <p class="small text-white-50">
+                        Smart Crop Recommendation System helps farmers make data-driven decisions.
+                        Optimize your yield, track history, and stay informed with AI-powered recommendations.
+                    </p>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="col-md-4 mb-4">
+                    <h5 class="fw-bold">Quick Links</h5>
+                    <ul class="list-unstyled small">
+                        <li><a href="{% url 'login' %}" class="text-white-50 text-decoration-none">User Login</a></li>
+                        <li><a href="{% url 'signup' %}" class="text-white-50 text-decoration-none">Create Account</a></li>
+                        <li><a href="{% url 'admin_login' %}" class="text-white-50 text-decoration-none">Admin Login</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none">Contact Support</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div class="col-md-4 mb-4">
+                    <h5 class="fw-bold">Contact</h5>
+                    <p class="small text-white-50 mb-1">
+                        <i class="fa-solid fa-envelope me-2"></i> support@croprecommend.com
+                    </p>
+                    <p class="small text-white-50 mb-1">
+                        <i class="fa-solid fa-phone me-2"></i> +1 234 567 890
+                    </p>
+                    <p class="small text-white-50">
+                        <i class="fa-solid fa-location-dot me-2"></i> 123 Farm Road, Agriculture City
+                    </p>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col text-center small text-white-50">
+                    &copy; {{ now|date:"Y" }} Smart Crop Recommendation System. All rights reserved.
+                </div>
+            </div>
+
           <a class="navbar-brand fw-bold" href="{% url 'home' %}">CropPredict</a>
   
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -63,12 +182,23 @@
             
             </ul>
           </div>
+
         </div>
-      </nav>
-    {% block content%}
-    {% endblock %}
-</body>
-<script src="{% static 'js/app.js' %}"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-</html>
+    </footer>
+    <!-- Scripts -->
+    <script src="{% static 'js/app.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {% if messages %}
+    <script>
+        {% for message in messages %}
+            Swal.fire({
+                icon: '{% if message.tags == "error" %}error{% else %}{{ message.tags }}{% endif %}',
+                title: '{% if message.tags == "error" %}Error{% else %}Success{% endif %}',
+                text: '{{ message }}',
+                confirmButtonColor: '#198754',
+            });
+        {% endfor %}
+    </script>
+    {% endif %}

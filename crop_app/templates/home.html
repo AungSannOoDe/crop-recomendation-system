@@ -3,87 +3,131 @@
 {% block title %} Home {% endblock %}
 
 {% block content %}
-<section class="container bg-color  rounded-4 p-4 mt-5 text-white">
-    <div class="row align-itmes-center">
-        <div class="col-lg-7">
-            <h1>Crop Recomenation System</h1>
-            <p class="lead text-white-75 mb-3">Enter roll and weather parameters to get clean UI sercure accounts and
-                detailed history - all in place. </p>
-            <div class="d-flex gap-4 flex-wrap">
-                {% if user.is_authenticated and user.is_staff  %}
-                <a href="" class="btn btn-light">
-                    <i class="fa-solid fa-gauge"></i>
-                    Admin Dashboard
+<section class="container-fluid py-5" style="background-color: #ffffff;">
+    <div class="row align-items-center">
+        <!-- Hero Text -->
+        <div class="col-lg-7 mb-4 mb-lg-0">
+            <h1 class="display-4 fw-bold mb-3 text-dark">Smart Crop Recommendation System</h1>
+            <p class="lead mb-4 text-secondary">
+                Make smarter farming decisions with our AI-driven crop recommendations. 
+                Analyze soil, weather, and environmental factors to maximize yield, reduce loss, 
+                and grow with confidence.
+            </p>
+
+            <!-- CTA Buttons -->
+            <div class="d-flex flex-wrap gap-3">
+                {% if user.is_authenticated and user.is_staff %}
+                <a href="{% url 'admin_dashboard' %}" class="btn btn-success btn-lg text-white">
+                    <i class="fa-solid fa-gauge me-1"></i> Admin Dashboard
                 </a>
-                <a href="" class="btn btn-outline-light">
-                    <i class="fa-solid fa-table"></i>
-                    View Predictions
+                <a href="#" class="btn btn-outline-success btn-lg">
+                    <i class="fa-solid fa-table me-1"></i> Manage Predictions
                 </a>
-                {% elif user.is_authenticated and not  user.is_staff  %}
-                <a href="" class="btn btn-outline-light">
-                    <i class="fa-solid fa-wand-magic-sparkles"></i>
-                    Prediction Now
+                {% elif user.is_authenticated %}
+                <a href="" class="btn btn-success btn-lg text-white">
+                    <i class="fa-solid fa-wand-magic-sparkles me-1"></i> Get Recommendation
                 </a>
-                <a href="" class="btn btn-outline-light">
-                    <i class="fa-solid fa-clock-rotate-left"></i>
-                    My Histroy
+                <a href="" class="btn btn-outline-success btn-lg">
+                    <i class="fa-solid fa-clock-rotate-left me-1"></i> My History
                 </a>
-                {%  else %}
-                <a href="" class="btn btn-outline-light">
-                    <i class="fa-solid fa-right-to-bracket"></i>
-                    User login
+                {% else %}
+                <a href="{% url 'login' %}" class="btn btn-outline-success btn-lg">
+                    <i class="fa-solid fa-right-to-bracket me-1"></i> User Login
                 </a>
-                <a href="" class="btn btn-outline-light">
-                    <i class="fa-solid fa-user-plus"></i>
-                    Create account
+                <a href="{% url 'signup' %}" class="btn btn-outline-success btn-lg">
+                    <i class="fa-solid fa-user-plus me-1"></i> Create Account
                 </a>
-                <a href="" class="btn btn-outline-light">
-                    <i class="fa-solid fa-lock"></i>
-                    Admin login
+                <a href="{% url 'admin-login' %}" class="btn btn-outline-success btn-lg">
+                    <i class="fa-solid fa-lock me-1"></i> Admin Login
                 </a>
                 {% endif %}
             </div>
-            <div class="mt-4 small ">
-                <i class="fa-solid  fa-shield-halved  me-1 "></i>
-                Your predictions are privately saved in account
-            </div>
+
+            <p class="mt-4 small text-muted">
+                <i class="fa-solid fa-shield-halved me-1"></i>
+                Your data is secure, private, and accessible anytime.
+            </p>
         </div>
-        <div class="col-lg-5">
-           <img src="{% static 'images/about.jpg' %}" style=" max-width: 500px; "  class="img-size-auto" alt="">
+
+        <!-- Hero Image -->
+        <div class="col-lg-5 text-center">
+            <img src="{% static 'images/about.jpg' %}" 
+                 class="img-fluid rounded-4 shadow-lg" 
+                 alt="Crop Recommendation">
         </div>
     </div>
-    <div class="row g-3 mt-3">
-        <div class="col-sm-6  col-lg-3">
-            <div class="stat-title">
-                <div class="stat-title">
-             Users
-                </div>
-                <div class="stat-value">
-   5
-                </div>
+
+    <!-- Advantages Section -->
+    <div class="row text-center mt-5 g-4">
+        <div class="col-md-4">
+            <div class="p-4 rounded-4 h-100 border bg-light">
+                <i class="fa-solid fa-chart-line fa-2x mb-3 text-success"></i>
+                <h5 class="fw-bold text-dark">Data-Driven Decisions</h5>
+                <p class="small text-secondary mb-0">
+                    Recommend crops based on soil nutrients, pH, temperature, humidity, and rainfall.
+                </p>
             </div>
         </div>
-        <div class="col-sm-6  col-lg-3">
-            <div class="stat-title">
-                <div class="stat-title">
-             Predictions
-                </div>
-                <div class="stat-value">
-   10
-                </div>
+        <div class="col-md-4">
+            <div class="p-4 rounded-4 h-100 border bg-light">
+                <i class="fa-solid fa-seedling fa-2x mb-3 text-success"></i>
+                <h5 class="fw-bold text-dark">Increase Yield</h5>
+                <p class="small text-secondary mb-0">
+                    Optimize productivity by choosing the best crops for your land and climate.
+                </p>
             </div>
         </div>
-        <div class="col-sm-6  col-lg-3">
-            <div class="stat-title">
-                <div class="state-title">
-             Predictions
-                </div>
-                <div class="stat-value">
-   10
-                </div>
+        <div class="col-md-4">
+            <div class="p-4 rounded-4 h-100 border bg-light">
+                <i class="fa-solid fa-clock fa-2x mb-3 text-success"></i>
+                <h5 class="fw-bold text-dark">Track Your History</h5>
+                <p class="small text-secondary mb-0">
+                    Keep records of past predictions to make smarter decisions over time.
+                </p>
             </div>
         </div>
     </div>
 
+    <!-- How It Works Section -->
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <h3 class="mb-4 text-dark">How It Works</h3>
+            <ol class="small ps-3 text-secondary">
+                <li>Create an account and login.</li>
+                <li>Enter field data: soil nutrients, pH, temperature, and humidity.</li>
+                <li>Click “Get Recommendation” to receive the best crop suggestions.</li>
+                <li>Track your predictions in the “My History” section.</li>
+                <li>Admins manage users and predictions via the Admin Dashboard.</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- Quick Stats Section -->
+    <div class="row g-4 mt-5 text-center">
+        <div class="col-sm-6 col-lg-3">
+            <div class="p-4 rounded-4 border bg-light">
+                <h5 class="text-dark">Users</h5>
+                <p class="fs-3 fw-bold text-success">5</p>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+            <div class="p-4 rounded-4 border bg-light">
+                <h5 class="text-dark">Predictions Made</h5>
+                <p class="fs-3 fw-bold text-success">10</p>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+            <div class="p-4 rounded-4 border bg-light">
+                <h5 class="text-dark">Active Recommendations</h5>
+                <p class="fs-3 fw-bold text-success">10</p>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+            <div class="p-4 rounded-4 border bg-light">
+                <h5 class="text-dark">Secure Data</h5>
+                <p class="fs-3 fw-bold text-success"><i class="fa-solid fa-shield-halved"></i></p>
+            </div>
+        </div>
+    </div>
 </section>
 {% endblock %}
