@@ -32,3 +32,4 @@ class Prediction(models.Model):
     def __str__(self):
         # 'predicted_label' is on this model, not the User model
         return f"{self.user.username} -> {self.predicted_label}"
+        
