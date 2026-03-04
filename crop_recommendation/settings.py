@@ -67,6 +67,11 @@ DATABASES = {
         ssl_require=False if DEBUG else True
     )
 }
+# Only add SSL requirements if we are NOT using sqlite (i.e., we are on Postgres)
+if 'sqlite' not in DATABASES['default']['ENGINE']:
+    DATABASES['default']['OPTIONS'] = {
+        'sslmode': 'verify-full', # Or 'require' depending on your provider
+    }
 
 # --- STATIC FILES ---
 STATIC_URL = 'static/'
