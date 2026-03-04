@@ -25,4 +25,5 @@ class Prediction(models.Model):
         ordering = ['-created_at']
 
     def __str__(self):
+
         return f"{self.user.username} -> {self.predicted_label}"
