@@ -2,10 +2,14 @@ django==6.0.3
 asgiref==3.11.1
 numpy==2.4.2
 openpyxl==3.1.5
-pandas  # Usually required for scikit-learn workflows
+pandas
 scikit-learn==1.8.0
 scipy==1.17.1
 joblib==1.5.3
 sqlparse==0.5.5
 threadpoolctl==3.6.0
 et_xmlfile==2.0.0
+gunicorn==23.0.0
+whitenoise==6.7.0
+dj-database-url==2.2.0
+psycopg2-binary==2.9.9
