@@ -11,7 +11,7 @@ python manage.py collectstatic --noinput
 
 echo "--- Starting Gunicorn ---"
 # Replace 'myproject' with the folder name containing your wsgi.py
-exec gunicorn myproject.wsgi:application \
+exec gunicorn crop_recommendation.wsgi:application \
     --bind 0.0.0.0:8000 \
     --workers 3 \
     --timeout 120
