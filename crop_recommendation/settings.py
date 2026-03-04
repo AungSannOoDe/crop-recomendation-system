@@ -60,19 +60,24 @@ WSGI_APPLICATION = 'crop_recommendation.wsgi.application'
 
 # --- DATABASE ---
 # Coolify provides the DATABASE_URL. If missing, it falls back to sqlite.
-DATABASES = {
-    'default': dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
-        conn_max_age=600,
-        ssl_require=False if DEBUG else True
-    )
-}
-# Only add SSL requirements if we are NOT using sqlite (i.e., we are on Postgres)
-if 'sqlite' not in DATABASES['default']['ENGINE']:
-    DATABASES['default']['OPTIONS'] = {
-        'sslmode': 'verify-full', # Or 'require' depending on your provider
-    }
+DATABASE_URL = os.environ.get("DATABASE_URL")
 
+if DATABASE_URL:
+    DATABASES = {
+        "default": dj_database_url.parse(
+            DATABASE_URL,
+            conn_max_age=600,
+            ssl_require=not DEBUG,
+        )
+    }
+else:
+    # Fallback to SQLite only if DATABASE_URL is not set
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 # --- STATIC FILES ---
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
